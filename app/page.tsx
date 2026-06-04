@@ -1,7 +1,43 @@
+"use client";
+
 import Link from "next/link";
 import OutfitCard from "@/components/OutfitCard";
+import { useState } from "react";
 
 export default function Home() {
+  const [search, setSearch] = useState("");
+
+  const outfits = [
+    {
+      title: "Old Money Summer",
+      image:
+        "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800",
+      href: "/old-money",
+    },
+    {
+      title: "Korean Minimalist",
+      image:
+        "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800",
+      href: "/korean",
+    },
+    {
+      title: "Streetwear Essentials",
+      image:
+        "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800",
+      href: "/streetwear",
+    },
+    {
+      title: "Y2K Aesthetic",
+      image:
+        "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800",
+      href: "/y2k",
+    },
+  ];
+
+  const filteredOutfits = outfits.filter((outfit) =>
+    outfit.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <main className="min-h-screen bg-[#f8f5f2] text-black">
       {/* Navigation */}
@@ -9,12 +45,19 @@ export default function Home() {
         <h1 className="text-3xl font-extrabold tracking-tight">
           StyleMatch
         </h1>
+<div className="flex gap-6">
+  <Link href="/" className="hover:text-gray-600">
+    Explore
+  </Link>
 
-        <div className="flex gap-6">
-          <button>Explore</button>
-          <button>Boards</button>
-          <button>Profile</button>
-        </div>
+  <Link href="/boards" className="hover:text-gray-600">
+    Boards
+  </Link>
+
+  <Link href="/profile" className="hover:text-gray-600">
+    Profile
+  </Link>
+</div>
       </nav>
 
       {/* Hero Section */}
@@ -23,11 +66,13 @@ export default function Home() {
           Discover Your Perfect Outfit
         </h2>
 
-        <p className="mt-4 text-black-600">
+        <p className="mt-4 text-gray-600">
           Find aesthetic fashion inspiration and shop the look.
         </p>
 
         <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="mt-8 w-[500px] max-w-[90%] p-4 rounded-xl border bg-white"
           placeholder="Search styles..."
         />
@@ -66,30 +111,21 @@ export default function Home() {
 
       {/* Outfit Grid */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-6 p-10 mt-10">
-        <OutfitCard
-          title="Old Money Summer"
-          image="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800"
-          href="/old-money"
-        />
-
-        <OutfitCard
-          title="Korean Minimalist"
-          image="https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800"
-          href="/korean"
-        />
-
-        <OutfitCard
-          title="Streetwear Essentials"
-          image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800"
-          href="/streetwear"
-        />
-
-        <OutfitCard
-          title="Y2K Aesthetic"
-          image="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800"
-          href="/y2k"
-        />
+        {filteredOutfits.map((outfit) => (
+          <OutfitCard
+            key={outfit.title}
+            title={outfit.title}
+            image={outfit.image}
+            href={outfit.href}
+          />
+        ))}
       </section>
+
+      {filteredOutfits.length === 0 && (
+        <p className="text-center text-gray-500 pb-10">
+          No styles found.
+        </p>
+      )}
     </main>
   );
 }
