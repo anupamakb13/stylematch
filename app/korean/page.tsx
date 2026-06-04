@@ -1,3 +1,4 @@
+"use client";
 import ProductCard from "@/components/ProductCard";
 
 export default function KoreanPage() {
@@ -14,7 +15,6 @@ export default function KoreanPage() {
         alt="Korean Minimalist"
         className="mt-8 rounded-3xl"
       />
-
       <p className="mt-8 text-lg text-gray-600 max-w-3xl">
         Korean minimalist fashion focuses on clean silhouettes,
         neutral colors and effortless elegance.
